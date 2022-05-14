@@ -11,8 +11,8 @@ import (
 
 var (
 	endpoint        = "oss-cn-hangzhou.aliyuncs.com"
-	accessKeyId     = "LTAI5tFJsRfoQc4tHyycDydr"
-	accessKeySecret = "jLpRuhQgxJzgJvMFw86yiQhAn1Fsky"
+	accessKeyId     = ""
+	accessKeySecret = ""
 	bucketName      = "cloud-station-yyg"
 	filePath        = "store.go"
 )
