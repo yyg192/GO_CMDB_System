@@ -1,0 +1,17 @@
+[app]
+name = "CMDB"
+host = "0.0.0.0"
+port = "8050"
+key = "this is your app key"
+
+[mysql]
+host = "127.0.0.1"
+port = "3306"
+username = "root"
+password = "123"
+database = "mydb"
+
+[logInfo]
+level = "debug" #info debug warn
+logfilepath = "logger/log.txt"
+output = "stdOutput"  #
