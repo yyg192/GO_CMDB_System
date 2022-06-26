@@ -1,0 +1,3 @@
+{
+    "go.testEnvFile": "${workspaceFolder}/etc/accesskey_conf.env",
+}
