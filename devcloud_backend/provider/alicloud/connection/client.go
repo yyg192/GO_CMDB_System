@@ -8,8 +8,8 @@ import (
 
 var (
 	Test_region_id     string = "cn-hangzhou"
-	Test_access_key    string = "LTAI5tQFjrUGN8KsZmCRrzfP"
-	Test_access_secret string = "nSHMjM7fWYubDc4Awg5MzjCPTrZaq6"
+	Test_access_key    string = ""
+	Test_access_secret string = ""
 )
 
 type AliCloudClient struct {
