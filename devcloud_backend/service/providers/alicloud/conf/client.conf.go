@@ -2,8 +2,8 @@ package conf
 
 const (
 	P_testRegionId     string = "cn-hangzhou"
-	P_testAccessKey    string = "LTAI5tQFjrUGN8KsZmCRrzfP"
-	P_testAccessSecret string = "nSHMjM7fWYubDc4Awg5MzjCPTrZaq6"
+	P_testAccessKey    string = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+	P_testAccessSecret string = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 )
 
 func RegionId() string {
