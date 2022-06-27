@@ -1,2 +1,0 @@
-# controller层
-主要用于根据url跳转执行到对应路径的方法，controller层定义增删改查的逻辑代码。
