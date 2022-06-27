@@ -1,9 +1,8 @@
-/** host/impl/host.go **/
 package host
 
 type Vendor int
 
-type Base struct {
+type BasicInformation struct {
 	Id string `json:"id"` // 全局唯一Id
 	//SyncAt       int64  `json:"sync_at"`       // 同步时间
 	Vendor       Vendor `json:"vendor"`        // 厂商
@@ -14,7 +13,7 @@ type Base struct {
 	DescribeHash string `json:"describe_hash"` // 描述数据Hash
 }
 
-type Resource struct {
+type ResourceInformation struct {
 	ExpireAt int64 `json:"expire_at"` // 过期时间
 	//Category    string            `json:"category"`    // 种类
 	Type        string            `json:"type"`        // 规格
@@ -29,7 +28,7 @@ type Resource struct {
 	PayType     string   `json:"pay_type"`    // 实例付费方式
 }
 
-type Describe struct {
+type DescribeInformation struct {
 	//ResourceId              string `json:"resource_id"`                // 关联Resource
 	CPU                     int      `json:"cpu"`                        // 核数
 	Memory                  int      `json:"memory"`                     // 内存
@@ -46,26 +45,30 @@ type Describe struct {
 }
 
 type Host struct {
-	*Base
-	*Resource
-	*Describe
+	*BasicInformation
+	*ResourceInformation
+	*DescribeInformation
+}
+
+func NewDefaultHost() *Host {
+	return &Host{
+		BasicInformation:    &BasicInformation{},
+		ResourceInformation: &ResourceInformation{},
+		DescribeInformation: &DescribeInformation{},
+	}
 }
 
 type HostSet struct {
 	Items []*Host `json:"items"`
-	Total int     `json:"total"`
+	Total int32   `json:"total"`
+}
+
+func NewHostSet() *HostSet {
+	return &HostSet{
+		Items: []*Host{}, //一定要初始化切片啊，不然报错！
+	}
 }
 
 type AccountGetter struct {
 	accountId string
-}
-
-func (ag *AccountGetter) GetAccountId() string {
-	return ag.accountId
-}
-
-func (hs *HostSet) Add(items ...any) {
-	for i := range items {
-		hs.Items = append(hs.Items, items[i].(*Host))
-	}
 }
