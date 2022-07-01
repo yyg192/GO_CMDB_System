@@ -50,25 +50,23 @@ type Host struct {
 	*DescribeInformation
 }
 
-func NewDefaultHost() *Host {
-	return &Host{
-		BasicInformation:    &BasicInformation{},
-		ResourceInformation: &ResourceInformation{},
-		DescribeInformation: &DescribeInformation{},
-	}
-}
-
 type HostSet struct {
-	Items []*Host `json:"items"`
-	Total int32   `json:"total"`
-}
+	/**
+	# implement AbstractSet
+	"/api/providers/common/set"
 
-func NewHostSet() *HostSet {
-	return &HostSet{
-		Items: []*Host{}, //一定要初始化切片啊，不然报错！
-	}
+	1. M_Add(...any)               //往里面添加任意数据类型的元素
+	2. M_Length() int32            //返回元素个数
+	3. M_TransferToTypeAny() []any //将集合内所有元素读转换为any类型
+	**/
+	M_items []*Host `json:"items"` //这里只能是M开头，不然json映射没法找到这个变量
+	M_total int32   `json:"total"`
 }
 
 type AccountGetter struct {
 	accountId string
+}
+
+func (ag *AccountGetter) GetAccountId() string {
+	return ag.accountId
 }

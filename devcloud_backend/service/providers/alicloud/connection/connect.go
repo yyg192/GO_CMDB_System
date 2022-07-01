@@ -10,7 +10,7 @@ import (
 	sdk_oss "github.com/aliyun/aliyun-oss-go-sdk/oss"
 )
 
-func (acc *AliCloudClient) M_ecsClientConnection() (*sdk_ecs.Client, error) {
+func (acc *AliCloudClient) M_EcsClientConnection() (*sdk_ecs.Client, error) {
 	if acc.M_ecsClient != nil {
 		return acc.M_ecsClient, nil
 	}
@@ -22,19 +22,19 @@ func (acc *AliCloudClient) M_ecsClientConnection() (*sdk_ecs.Client, error) {
 	return ecs_client, nil
 }
 
-func (acc *AliCloudClient) M_rdsClientConnection() (*sdk_rds.Client, error) {
+func (acc *AliCloudClient) M_RdsClientConnection() (*sdk_rds.Client, error) {
 	return nil, fmt.Errorf("function RdsClientConnection not finished yet")
 }
 
-func (acc *AliCloudClient) M_bssClientConnection() (*sdk_bss.Client, error) {
+func (acc *AliCloudClient) M_BssClientConnection() (*sdk_bss.Client, error) {
 	return nil, fmt.Errorf("function BssClientConnection not finished yet")
 }
 
-func (acc *AliCloudClient) M_ossClientConnection() (*sdk_oss.Client, error) {
+func (acc *AliCloudClient) M_OssClientConnection() (*sdk_oss.Client, error) {
 	return nil, fmt.Errorf("function OssClientConnection not finished yet")
 }
 
-func (acc *AliCloudClient) M_account() (string, error) {
+func (acc *AliCloudClient) M_Account() (string, error) {
 	// 通过sdk拿到云商该账户的accountId
 	req := sdk_sts.CreateGetCallerIdentityRequest()
 	stsClient, err := sdk_sts.NewClientWithAccessKey(acc.m_regionId, acc.m_accessKey, acc.m_accessSecret)

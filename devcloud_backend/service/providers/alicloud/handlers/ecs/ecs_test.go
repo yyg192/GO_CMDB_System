@@ -1,20 +1,20 @@
 package ecs_test
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
-	sdk_ecs "github.com/aliyun/alibaba-cloud-sdk-go/services/ecs"
 	. "github.com/smartystreets/goconvey/convey"
+	"github.com/yyg192/GO_CMDB_System/Dao/providers/host"
 	"github.com/yyg192/GO_CMDB_System/service/providers/alicloud/conf"
 	"github.com/yyg192/GO_CMDB_System/service/providers/alicloud/connection"
 	"github.com/yyg192/GO_CMDB_System/service/providers/alicloud/handlers/ecs"
 )
 
+/*
 func Test_GetAllInstancesDescription(t *testing.T) {
-	/**
-	2022-6-26终于测试完毕
-	**/
+	// 2022-6-26终于测试完毕 （已废弃，因为代码翻新了）
 	Convey("测试函数: GetInstancesDescription", t, func() {
 		Convey("获取cloud_client", func() {
 			cloud_client := connection.CreateAliCloudClient(conf.RegionId(), conf.AccessKey(), conf.AccessSecret())
@@ -32,5 +32,21 @@ func Test_GetAllInstancesDescription(t *testing.T) {
 			})
 		})
 
+	})
+}
+*/
+
+func Test_GetFirstPageDataFromAliCloud(t *testing.T) {
+	//2022-7-2 0:06
+	Convey("测试函数: EcsPager.M_GetCurrentPageData", t, func() {
+		set := host.CreateHostSet()
+		cloud_client := connection.CreateAliCloudClient(conf.RegionId(), conf.AccessKey(), conf.AccessSecret())
+		cloud_client.M_EcsClientConnection()
+		ecsHandler := ecs.CreateEcsHandler(cloud_client.M_ecsClient)
+		ecsPager := ecs.CreateEcsPager(ecsHandler)
+		err := ecsPager.M_GetCurrentPageDataWithTB(context.Background(), set)
+		So(err, ShouldNotBeNil)
+		fmt.Println("打印从云商获取的主机实例:")
+		fmt.Println(set)
 	})
 }
