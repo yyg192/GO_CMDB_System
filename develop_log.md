@@ -16,3 +16,10 @@ Todolist:
 
 ## 2022-06-27
 后端又重构了一下，最终确定了组织架构，目前我结合阿里巴巴编程规约制定了一个自己的Go编程规约，暂时试验一下看好不好用。
+
+## 2022-07-02
+太晚了先睡了，还有个bug没改完，bug出现在ecspager.go文件中的第50行 s.M_Add(resp.M_TransferToTypeAny()...)
+我这几天基本上又重新的组织了一下项目组织架构，更加规范化。接下来是要完成ecs_test.go的测试内容，利用pgaer获取云商数据。另外有几个todo事项。
+1. 好好看看Test_GetFIrstPageDataFromAliCloud这个函数，尤其是每次创建完cloud_client后还要执行M_EcsClientConnection()，要是忘记的话就会报错，而且这极度依赖用户操作。这是不行的！！！要把这个连接云客户端的操作想办法给塞进CreateAliCloudClient函数里面，
+2.  另外我感觉最终的目的其实就是为了获取ecsPager，我觉得可以完全的从创建cloud_client，连接cloudClient，创建ecsHandler以及ecsPager这几个步骤合在一起，就不用每次都写这么多内容了，怪麻烦的。
+3.  另外回头把我自己探索出来的模板模式给写进我的go编程规约里面。
