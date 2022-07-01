@@ -17,7 +17,7 @@ func (eh *EcsHandler) m_TransferHostSet(unfilter_items []sdk_ecs.Instance) *host
 	// 并把所需的那一部分填进HostSet中返回
 	host_set := host.CreateHostSet()
 	for i := range unfilter_items {
-		host_set.Add(eh.m_TransferHost(unfilter_items[i]))
+		host_set.M_Add(eh.m_TransferHost(unfilter_items[i]))
 	}
 	return host_set
 }

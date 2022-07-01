@@ -14,13 +14,13 @@ func CreateHostSet() *HostSet {
 	}
 }
 
-func (hs *HostSet) Add(items ...any) {
+func (hs *HostSet) M_Add(items ...any) {
 	for i := range items {
 		hs.M_items = append(hs.M_items, items[i].(*Host))
 	}
 }
 
-func (hs *HostSet) Length() int32 {
+func (hs *HostSet) M_Length() int32 {
 	return hs.M_total
 }
 
