@@ -4,7 +4,7 @@ import (
 	"time"
 
 	sdk_ecs "github.com/aliyun/alibaba-cloud-sdk-go/services/ecs"
-	"github.com/yyg192/GO_CMDB_System/model/host"
+	"github.com/yyg192/GO_CMDB_System/Dao/providers/host"
 )
 
 /**
@@ -15,7 +15,7 @@ import (
 func (eh *EcsHandler) m_TransferHostSet(unfilter_items []sdk_ecs.Instance) *host.HostSet {
 	// 云商会传来一堆描述信息字段(unfilter_items)，因为我们只需要其中的一部分
 	// 并把所需的那一部分填进HostSet中返回
-	host_set := host.NewHostSet()
+	host_set := host.CreateHostSet()
 	for i := range unfilter_items {
 		host_set.Add(eh.m_TransferHost(unfilter_items[i]))
 	}
@@ -23,7 +23,7 @@ func (eh *EcsHandler) m_TransferHostSet(unfilter_items []sdk_ecs.Instance) *host
 }
 
 func (eh *EcsHandler) m_TransferHost(ins sdk_ecs.Instance) *host.Host {
-	host := host.NewDefaultHost()
+	host := host.CreateHost()
 	host.BasicInformation.Id = ins.InstanceId
 	host.BasicInformation.Vendor = 0 //这里一定要注意！我暂时给个0而已，后面还要统一起来的！
 	host.BasicInformation.Region = ins.RegionId
