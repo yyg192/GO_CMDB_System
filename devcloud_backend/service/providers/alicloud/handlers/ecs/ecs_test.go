@@ -45,7 +45,7 @@ func Test_GetFirstPageDataFromAliCloud(t *testing.T) {
 		ecsHandler := ecs.CreateEcsHandler(cloud_client.M_ecsClient)
 		ecsPager := ecs.CreateEcsPager(ecsHandler)
 		err := ecsPager.M_GetCurrentPageDataWithTB(context.Background(), set)
-		So(err, ShouldNotBeNil)
+		So(err, ShouldBeNil)
 		fmt.Println("打印从云商获取的主机实例:")
 		fmt.Println(set)
 	})
