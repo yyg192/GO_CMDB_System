@@ -48,6 +48,7 @@ func (ep *EcsPager) m_GetCurrentPageDataImpl(ctx context.Context, s set.Abstract
 		return err
 	}
 	s.M_Add(resp.M_TransferToTypeAny()...) //转换成any类型
+	//s = resp
 	//如果函数的最后一个参数是采用 ...type 的形式，那么这个函数就可以处理一个变长的参数
 	//如果参数被存储在一个 slice 类型的变量 slice 中，则可以通过 slice... 的形式来传递参数调用变参函数。
 	ep.M_HasNextThenToNext(s)
