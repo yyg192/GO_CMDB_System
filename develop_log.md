@@ -23,3 +23,44 @@ Todolist:
 1. 好好看看Test_GetFIrstPageDataFromAliCloud这个函数，尤其是每次创建完cloud_client后还要执行M_EcsClientConnection()，要是忘记的话就会报错，而且这极度依赖用户操作。这是不行的！！！要把这个连接云客户端的操作想办法给塞进CreateAliCloudClient函数里面，
 2.  另外我感觉最终的目的其实就是为了获取ecsPager，我觉得可以完全的从创建cloud_client，连接cloudClient，创建ecsHandler以及ecsPager这几个步骤合在一起，就不用每次都写这么多内容了，怪麻烦的。
 3.  另外回头把我自己探索出来的模板模式给写进我的go编程规约里面。
+
+## 2022-07-02
+Test_GetFirstPageDataFromAliCloud这个测试函数终于过了，到目前为止代码预期功能都正常实现了，虽然bug解决了，但是也是有点误打误撞解决的，比如下面这些问题我都还没搞懂。
+``` go
+func (hs *HostSet) M_TransferToTypeAny() (items []any) {
+	//items := make([]any, hs.M_total)
+	for i := range hs.M_items {
+		items = append(items, hs.M_items[i])
+	}
+	return
+}
+
+/**
+为什么这个函数就会报错，上面的不会啊 ！！！！
+func (hs *HostSet) M_TransferToTypeAny() []any {
+	items := make([]any, hs.M_total)
+	for i := range hs.M_items {
+		items = append(items, hs.M_items[i])
+	}
+	return items
+}
+**/
+```
+还有下面这个奇怪的bug，虽然改对了，但是仍然不知道错误版本有什么问题，回头再研究一下！
+``` go
+func (hs *HostSet) M_Add(items ...any) {
+	for i := range items {
+		hs.M_items = append(hs.M_items, items[i].(*Host))
+		//hs.M_items是 []*Host 类型
+	}
+	/**
+	for _, item := range items {
+		hs.M_items = append(hs.M_items, items[i].(*Host)) 这样会直接panic！
+		//这个bug找的好辛苦啊！回头研究一下为什么？？？？？
+	}
+	**/
+}
+```
+然后几个todo list没完成
+1.  另外我感觉最终的目的其实就是为了获取ecsPager，我觉得可以完全的从创建cloud_client，连接cloudClient，创建ecsHandler以及ecsPager这几个步骤合在一起，就不用每次都写这么多内容了，怪麻烦的。
+2.  另外回头把我自己探索出来的模板模式给写进我的go编程规约里面。
