@@ -5,8 +5,8 @@ import (
 
 	sdk_req "github.com/aliyun/alibaba-cloud-sdk-go/sdk/requests"
 	sdk_ecs "github.com/aliyun/alibaba-cloud-sdk-go/services/ecs"
-	"github.com/yyg192/GO_CMDB_System/api/providers/common/pager"
-	"github.com/yyg192/GO_CMDB_System/api/providers/common/set"
+	"github.com/yyg192/GO_CMDB_System/api/providers/pager"
+	"github.com/yyg192/GO_CMDB_System/api/providers/set"
 )
 
 /**
@@ -29,8 +29,8 @@ type EcsPager struct {
 	**/
 
 	*pager.BasePager
-	m_ecsHandler *EcsHandler
-	m_req        *sdk_ecs.DescribeInstancesRequest
+	//m_ecsObtainer *EcsObtainer
+	m_req *sdk_ecs.DescribeInstancesRequest
 	// 后期考虑加入logger
 }
 
@@ -42,7 +42,7 @@ func (ep *EcsPager) m_SetRequest() *sdk_ecs.DescribeInstancesRequest {
 }
 
 func (ep *EcsPager) m_GetCurrentPageDataImpl(ctx context.Context, s set.AbstractSet) error {
-	resp, err := ep.m_ecsHandler.M_GetEcsHostGroupFromAlicloud(ep.m_SetRequest())
+	resp, err := ep.m_ecsObtainer.M_GetEcsHostGroupFromAlicloud(ep.m_SetRequest())
 	//根据当前的PageNumber和PageSize，设置一个访问阿里云的request。然后拿着这个request去访问阿里云
 	if err != nil {
 		return err
@@ -55,12 +55,12 @@ func (ep *EcsPager) m_GetCurrentPageDataImpl(ctx context.Context, s set.Abstract
 	return nil
 }
 
-func CreateEcsPager(ecsHandler *EcsHandler) pager.AbstractPager {
+func CreateEcsPager(ecsObtainer *EcsObtainer) pager.AbstractPager {
 	req := sdk_ecs.CreateDescribeInstancesRequest()
 	ecsPager := &EcsPager{
-		BasePager:    pager.CreateBasePager(),
-		m_ecsHandler: ecsHandler,
-		m_req:        req,
+		BasePager:     pager.CreateBasePager(),
+		m_ecsObtainer: ecsObtainer,
+		m_req:         req,
 	}
 	ecsPager.M_RegistFuncGetCurrentPageData(ecsPager.m_GetCurrentPageDataImpl)
 

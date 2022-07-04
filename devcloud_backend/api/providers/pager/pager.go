@@ -1,11 +1,15 @@
 package pager
 
+/**
+页迭代器,按照页从云端获取数据
+**/
+
 import (
 	"context"
 	"fmt"
 
 	"github.com/infraboard/mcube/flowcontrol/tokenbucket"
-	"github.com/yyg192/GO_CMDB_System/api/providers/common/set"
+	"github.com/yyg192/GO_CMDB_System/api/providers/set"
 )
 
 type AbstractPager interface {
@@ -24,7 +28,8 @@ type BasePager struct { // 继承自AbstractPager
 	m_pageSize   int32
 	m_pageNumber int32
 	//m_hasNext    bool
-	tb *tokenbucket.Bucket
+	m_tb       *tokenbucket.Bucket
+	m_obtainer *EcsObtainer
 	//需要继承者自己实现的函数
 	GetCurrentPageDataFuncptr GetCurrentPageDataSign
 }
@@ -34,7 +39,7 @@ func CreateBasePager() *BasePager {
 		m_pageSize:   20,
 		m_pageNumber: 1,
 		//m_hasNext:    true,
-		tb: tokenbucket.NewBucketWithRate(1, 1),
+		m_tb: tokenbucket.NewBucketWithRate(1, 1),
 	}
 }
 
@@ -60,7 +65,7 @@ func (bp *BasePager) M_SetPageNumber(pageNumber int32) {
 }
 
 func (bp *BasePager) M_SetRate(rate float64) {
-	bp.tb.SetRate(rate)
+	bp.m_tb.SetRate(rate)
 }
 
 func (bp *BasePager) M_PageSize() int32 {

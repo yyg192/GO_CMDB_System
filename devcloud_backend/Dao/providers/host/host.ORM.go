@@ -30,16 +30,16 @@ type ResourceInformation struct {
 
 type DescribeInformation struct {
 	//ResourceId              string `json:"resource_id"`                // 关联Resource
-	CPU                     int      `json:"cpu"`                        // 核数
-	Memory                  int      `json:"memory"`                     // 内存
-	GPUAmount               int      `json:"gpu_amount"`                 // GPU数量
+	CPU                     int32    `json:"cpu"`                        // 核数
+	Memory                  int32    `json:"memory"`                     // 内存
+	GPUAmount               int32    `json:"gpu_amount"`                 // GPU数量
 	GPUSpec                 string   `json:"gpu_spec"`                   // GPU类型
-	OSType                  string   `json:"os_type"`                    // 操作系统类型，分为Windows和Linux
-	OSName                  string   `json:"os_name"`                    // 操作系统名称
+	OsType                  string   `json:"os_type"`                    // 操作系统类型，分为Windows和Linux
+	OsName                  string   `json:"os_name"`                    // 操作系统名称
 	SerialNumber            string   `json:"serial_number"`              // 序列号
-	ImageID                 string   `json:"image_id"`                   // 镜像ID
-	InternetMaxBandwidthOut int      `json:"internet_max_bandwidth_out"` // 公网出带宽最大值，单位为 Mbps
-	InternetMaxBandwidthIn  int      `json:"internet_max_bandwidth_in"`  // 公网入带宽最大值，单位为 Mbps
+	ImageId                 string   `json:"image_id"`                   // 镜像ID
+	InternetMaxBandwidthOut int32    `json:"internet_max_bandwidth_out"` // 公网出带宽最大值，单位为 Mbps
+	InternetMaxBandwidthIn  int32    `json:"internet_max_bandwidth_in"`  // 公网入带宽最大值，单位为 Mbps
 	KeyPairName             []string `json:"key_pair_name,omitempty"`    // 秘钥对名称
 	SecurityGroups          []string `json:"security_groups"`            // 安全组  采用逗号分隔
 }

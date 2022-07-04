@@ -9,8 +9,10 @@ func CreateHost() *Host {
 }
 
 func CreateHostSet() *HostSet {
+	//继承自AbstractSet
 	return &HostSet{
 		M_items: []*Host{}, //一定要初始化切片啊，不然报错!
+		M_total: 0,
 	}
 }
 

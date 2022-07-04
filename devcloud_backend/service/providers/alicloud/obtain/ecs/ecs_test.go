@@ -9,7 +9,7 @@ import (
 	"github.com/yyg192/GO_CMDB_System/Dao/providers/host"
 	"github.com/yyg192/GO_CMDB_System/service/providers/alicloud/conf"
 	"github.com/yyg192/GO_CMDB_System/service/providers/alicloud/connection"
-	"github.com/yyg192/GO_CMDB_System/service/providers/alicloud/handlers/ecs"
+	"github.com/yyg192/GO_CMDB_System/service/providers/alicloud/obtain/ecs"
 )
 
 /*
@@ -42,7 +42,7 @@ func Test_GetFirstPageDataFromAliCloud(t *testing.T) {
 		set := host.CreateHostSet()
 		cloud_client := connection.CreateAliCloudClient(conf.RegionId(), conf.AccessKey(), conf.AccessSecret())
 		cloud_client.M_EcsClientConnection()
-		ecsHandler := ecs.CreateEcsHandler(cloud_client.M_ecsClient)
+		ecsHandler := ecs.CreateEcsObtainer(cloud_client.M_ecsClient)
 		ecsPager := ecs.CreateEcsPager(ecsHandler)
 		err := ecsPager.M_GetCurrentPageDataWithTB(context.Background(), set)
 		So(err, ShouldBeNil)

@@ -12,7 +12,7 @@ import (
 而transfer.go则负责将第三方传递过来的描述信息转为本地数据对象（选取我们需要的描述信息字段存进我们的结构体对象）
 **/
 
-func (eh *EcsHandler) m_TransferHostSet(unfilter_items []sdk_ecs.Instance) *host.HostSet {
+func (eh *EcsObtainer) m_TransferHostSet(unfilter_items []sdk_ecs.Instance) *host.HostSet {
 	// 云商会传来一堆描述信息字段(unfilter_items)，因为我们只需要其中的一部分
 	// 并把所需的那一部分填进HostSet中返回
 	host_set := host.CreateHostSet()
@@ -22,45 +22,41 @@ func (eh *EcsHandler) m_TransferHostSet(unfilter_items []sdk_ecs.Instance) *host
 	return host_set
 }
 
-func (eh *EcsHandler) m_TransferHost(ins sdk_ecs.Instance) *host.Host {
+func (eh *EcsObtainer) m_TransferHost(ins sdk_ecs.Instance) *host.Host {
 	host := host.CreateHost()
 	host.BasicInformation.Id = ins.InstanceId
 	host.BasicInformation.Vendor = 0 //这里一定要注意！我暂时给个0而已，后面还要统一起来的！
 	host.BasicInformation.Region = ins.RegionId
 	host.BasicInformation.Zone = ins.ZoneId
 	host.BasicInformation.CreateAt = eh.m_ParseTime(ins.CreationTime)
-	//host.Base.ResourceHash = ins.
-	//host.Base.DescribeHash = ins.
 
 	host.ResourceInformation.ExpireAt = eh.m_ParseTime(ins.ExpiredTime)
-	//host.Resource.Category    =
 	host.ResourceInformation.Type = ins.InstanceType
 	host.ResourceInformation.Name = ins.InstanceName
 	host.ResourceInformation.Description = ins.Description
 	host.ResourceInformation.Status = ins.Status
 	/* host.Resource.Tags = eh.transferTags(ins.Tags.Tag) 暂时先不处理这个*/
-	//host.Resource.UpdateAt    =
 	host.ResourceInformation.SyncAccount = eh.GetAccountId()
 	host.ResourceInformation.PublicIP = ins.PublicIpAddress.IpAddress
 	host.ResourceInformation.PrivateIP = eh.m_ParsePrivateIp(ins)
 	host.ResourceInformation.PayType = ins.InstanceChargeType
 
-	host.DescribeInformation.CPU = int(ins.CPU)
-	host.DescribeInformation.Memory = int(ins.Memory)
-	host.DescribeInformation.GPUAmount = int(ins.GPUAmount)
+	host.DescribeInformation.CPU = int32(ins.CPU)
+	host.DescribeInformation.Memory = int32(ins.Memory)
+	host.DescribeInformation.GPUAmount = int32(ins.GPUAmount)
 	host.DescribeInformation.GPUSpec = ins.GPUSpec
-	host.DescribeInformation.OSType = ins.OsType
-	host.DescribeInformation.OSName = ins.OSName
+	host.DescribeInformation.OsType = ins.OsType
+	host.DescribeInformation.OsName = ins.OSName
 	host.DescribeInformation.SerialNumber = ins.SerialNumber
-	host.DescribeInformation.ImageID = ins.ImageId
-	host.DescribeInformation.InternetMaxBandwidthOut = int(ins.InternetMaxBandwidthOut)
-	host.DescribeInformation.InternetMaxBandwidthIn = int(ins.InternetMaxBandwidthIn)
+	host.DescribeInformation.ImageId = ins.ImageId
+	host.DescribeInformation.InternetMaxBandwidthOut = int32(ins.InternetMaxBandwidthOut)
+	host.DescribeInformation.InternetMaxBandwidthIn = int32(ins.InternetMaxBandwidthIn)
 	host.DescribeInformation.KeyPairName = []string{ins.KeyPairName}
 	host.DescribeInformation.SecurityGroups = ins.SecurityGroupIds.SecurityGroupId
 	return host
 }
 
-func (eh *EcsHandler) m_ParseTime(t string) int64 {
+func (eh *EcsObtainer) m_ParseTime(t string) int64 {
 	ts, err := time.Parse("2006-01-02T15:04Z", t)
 	if err != nil {
 		//eh.log.Errorf("parse time %s error, %s", t, err)
@@ -70,7 +66,7 @@ func (eh *EcsHandler) m_ParseTime(t string) int64 {
 	return ts.UnixNano() / 1000000
 }
 
-func (eh *EcsHandler) m_ParsePrivateIp(ins sdk_ecs.Instance) []string {
+func (eh *EcsObtainer) m_ParsePrivateIp(ins sdk_ecs.Instance) []string {
 	ips := []string{} //空切片
 	//优先查主网卡的私网IP地址
 	/**

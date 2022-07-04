@@ -5,16 +5,14 @@ import (
 	"github.com/yyg192/GO_CMDB_System/Dao/providers/host"
 )
 
-type EcsHandler struct {
-	/**
-	继承自 AbstractEcsHandler ？？
-	**/
+type EcsObtainer struct {
 	m_ecs_client *sdk_ecs.Client
 	*host.AccountGetter
+	//resource.AccountGetter
 }
 
-func CreateEcsHandler(client *sdk_ecs.Client) *EcsHandler {
-	return &EcsHandler{
+func CreateEcsObtainer(client *sdk_ecs.Client) *EcsObtainer {
+	return &EcsObtainer{
 		m_ecs_client:  client,
 		AccountGetter: &host.AccountGetter{},
 	}

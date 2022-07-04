@@ -16,7 +16,7 @@ func Test_EcsClientConnection(t *testing.T) {
 			conf.AccessKey(),
 			conf.AccessSecret(),
 		)
-		client, err := cloud_client.M_ecsClientConnection()
+		client, err := cloud_client.M_EcsClientConnection()
 		Convey("获取客户Ecs服务连接的句柄", func() {
 			So(client, ShouldNotBeNil)
 			So(err, ShouldBeNil)
